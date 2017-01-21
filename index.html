@@ -1,0 +1,128 @@
+<!--Header JS-->
+<script src="header.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+<script src="firebase_api.js" type="text/javascript"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript">
+	$(function() {
+		// Initialize Firebase
+		
+		liste('urun');
+		liste('kullanici');
+		liste('mekan');
+		$("select[name='urun']").change(function() {
+			var id = $("select[name='urun']").val();
+			if(id!=-1)
+			{
+				$("input[name='fiyat']").val(v['urun'][id]['fiyat']);
+				$("input[name='ad']").val(v['urun'][id]['ad']);
+				$("select[name='kullanici'] option:selected").removeAttr("selected");
+				$("select[name='mekan'] option:selected").removeAttr("selected");
+				$("select[name='kullanici'] option[value='"+v['urun'][id]['kullanici_id']+"']").attr("selected","selected").change();
+				$("select[name='mekan'] option[value='"+v['urun'][id]['mekan_id']+"']").attr("selected","selected").change();
+			}
+			else
+			{
+				temizle();
+			}
+		});
+		$("button[name='kaydet']").click(function() {
+			var id = $("select[name='urun']" ).val();
+			var ad = $("input[name='ad']").val();
+			var fiyat = $("input[name='fiyat']").val();
+			var kullanici_id = $("select[name='kullanici']").val();
+			var mekan_id = $("select[name='mekan']").val();
+			veri={
+				ad:ad,
+				fiyat:fiyat,
+				kullanici_id:kullanici_id,
+				mekan_id:mekan_id
+			};
+			if(id!=-1)
+			{
+				add(veri,id,'urun/');
+			}
+			else if(ad!='' && fiyat!='' && kullanici_id!='' && mekan_id!='')
+			{
+				add(veri,sonid,'urun/');
+			}
+			liste('urun');
+			liste('kullanici');
+			liste('mekan');
+		});
+		$("button[name='sil']").click(function() {
+			var id = $("select[name='urun']" ).val();
+			if(id!=-1)
+			{
+				del(id,'urun/');
+			}
+			liste('urun');
+			liste('kullanici');
+			liste('mekan');
+		});
+	});
+
+</script>
+<!--Header JS-->
+<!--1d2f8ab71cee074a4a44e06a7075c5bd-->
+<!--Page-->
+<div class="row">
+<div class="col-md-12">
+  <div class="card">
+	<div class="card-header">
+	  Ürünler
+	</div>
+	<div class="card-body">
+		<div class="row">
+			<div class="col-md-12">
+				<select class="select2" name="urun">
+					<option value="-1" selected>-</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label class="col-md-5 control-label">Ürün Adı : </label>
+				<div class="col-md-9">
+					<input type="text" name="ad" class="form-control" placeholder=""/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-9 control-label">Fiyat : </label>
+				<div class="col-md-4">
+					<input type="text" name="fiyat" class="form-control" placeholder=""/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-9 control-label">Kullanıcı : </label>
+				<div class="col-md-4">
+					<select class="select2" name="kullanici">
+						<option value="-1" selected>-</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-md-9 control-label">Mekan : </label>
+				<div class="col-md-4">
+					<select class="select2" name="mekan">
+						<option value="-1" selected>-</option>
+					</select>
+				</div>
+			</div>
+			<div class="form-footer">
+				<div class="form-group">
+					<div class="col-md-9 col-md-offset-3">
+						<button type="submit" class="btn btn-primary" name="kaydet">Kaydet</button>
+						<button type="delete" class="btn btn-primary" name="sil">Sil</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+  </div>
+</div>
+</div>
+<!--Page-->
+
+<!--Footer JS-->
+<script src="footer.js" type="text/javascript"></script>
+<!--Footer JS-->
